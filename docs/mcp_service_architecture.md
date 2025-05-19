@@ -58,6 +58,7 @@ This document describes a stable, scalable architecture for hosting Multi-Contai
 - [OAuth2 Authorization Framework](https://oauth.net/2/)  
 - [JWT Introduction](https://jwt.io/introduction/)  
 - [Prometheus Monitoring](https://prometheus.io/)
+- [Model Context Protocol Servers](https://glama.ai/mcp/servers)
 
 ---
 

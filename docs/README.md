@@ -52,7 +52,7 @@ Welcome to the documentation folder for the Viben project. This directory contai
 
 ## Additional Resources
 
-- [Model Context Protocol Site](https://mcp.so/)  
+- [Model Context Protocol Servers](https://glama.ai/mcp/servers)
 - [MCP Core GitHub](https://github.com/modelcontextprotocol)  
 - [System Prompts and AI Tools Research](https://github.com/x1xhlol/system-prompts-and-models-of-ai-tools)  
 

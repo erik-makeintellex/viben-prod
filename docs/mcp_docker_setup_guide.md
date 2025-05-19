@@ -98,4 +98,4 @@ After setup, explore the [MCP Service Architecture](mcp_service_architecture.md)
 
 - [MCP GitHub Repository](https://docs.roocode.com/features/mcp/recommended-mcp-servers)
 - [Docker Official Documentation](https://docs.docker.com/)
-- [MCP Servers and Clients](https://mcp.so/)
+- [MCP Servers](https://glama.ai/mcp/servers)
