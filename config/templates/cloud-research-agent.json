@@ -1,0 +1,17 @@
+{
+  "agent_id": "cloud-research-agent",
+  "description": "A research-focused MCP agent running in a cloud node.",
+  "model": "gpt-4",
+  "system_prompt_file": "system-prompt-inheritance.json",
+  "entry_role": "research_agent",
+  "memory_enabled": true,
+  "access": {
+    "auth_required": true,
+    "scopes": ["search", "summarize"]
+  },
+  "cloud_config": {
+    "runtime_env": "docker",
+    "max_tokens": 8192,
+    "node_affinity": ["us-west", "high-availability"]
+  }
+}

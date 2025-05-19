@@ -1,3 +1,4 @@
+
 # MCP Agent Cloud Design
 
 This document outlines the design pattern for a scalable, shareable agent cloud using Model Context Protocol (MCP) services and nodes. The structure allows for both local and centralized node usage to support agent interoperability.
@@ -99,4 +100,3 @@ For examples, see:
 - 📘 [Related Research on AI Tools and System Prompts](https://github.com/x1xhlol/system-prompts-and-models-of-ai-tools)
 
 ---
-

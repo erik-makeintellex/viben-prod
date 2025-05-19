@@ -1,79 +1,72 @@
-# Agent Prompt Structures & Reference Patterns
+# Agent Prompt Structures
 
-This document catalogs effective multi-agent prompt design strategies, drawing from notable open-source AI tools and research projects. These can be used to structure MCP-compatible agent services and improve clarity, coordination, and adaptability in agent orchestration.
-
----
-
-## 🧠 Prompt Design References
-
-### 1. **Devin (Sourcegraph)**
-**Structure: Code Deployment Assistant Prompt**
-- Prompt encourages hypothesis-driven task management.
-- Goal framing, code ownership, and verification checkpoints.
-
-🔗 [View Prompt](https://github.com/x1xhlol/system-prompts-and-models-of-ai-tools/blob/main/devin-prompts/deployment-prompt.txt)
-
-### 2. **Cursor**
-**Structure: VSCode Context-Aware Agent Prompt**
-- Full memory of code context.
-- User-guided refactor suggestions and inline memory of decisions.
-
-🔗 [View Prompt](https://github.com/x1xhlol/system-prompts-and-models-of-ai-tools/blob/main/cursor-prompts/system-prompt.txt)
-
-### 3. **Dia / Windsurf**
-**Structure: Browser Interaction Prompt**
-- Fluent web navigation with reasoning over open tabs.
-- Temporal and semantic intent tracking.
-
-🔗 [View Prompt](https://github.com/x1xhlol/system-prompts-and-models-of-ai-tools/blob/main/windsurf/windsurf-browser.txt)
+This document outlines prompt structure strategies and inheritance models used for MCP agents. It includes templates, delegation chains, and examples of role-based prompt setups for various agent tasks (cloud ops, dev, SRE, gaming).
 
 ---
 
-## 🔧 Multi-Agent Prompt Features
+## Table of Contents
 
-| Feature                     | Description                                                                 |
-|----------------------------|-----------------------------------------------------------------------------|
-| Role-bound Context Memory  | Assign role-based memory per agent chain.                                  |
-| Decentralized Authority    | Enables agent-cloud models without fixed central controller.               |
-| Response Verification Loop | Promotes agents verifying peer-generated outputs.                          |
-| Modular Reasoning Flow     | Steps can be segmented, scheduled, or replayed across agents.              |
+- [Overview](#overview)
+- [Core Prompt Templates](#core-prompt-templates)
+- [Prompt Inheritance Design](#prompt-inheritance-design)
+- [Use Case Templates](#use-case-templates)
+- [References](#references)
 
 ---
 
-## 🧰 Template Inheritance and Extension
+## Overview
 
-Each agent type can reference a base system prompt and override only the required elements.
+Agents can inherit system prompts and behavior templates based on task type, platform, or priority. Prompts are modular, injected at run time, and can reference JSON/YAML configuration for reuse across agents.
 
-**Example JSON Inheritance:**
+See also:
+- [`system-prompt-inheritance.json`](../config/templates/system-prompt-inheritance.json)
+- [`cloud-agent-template.json`](../config/templates/cloud-agent-template.json)
+- [`game-dev-agent-template.json`](../config/templates/game-dev-agent-template.json)
+
+---
+
+## Core Prompt Templates
+
+MCP supports configurable prompt templates to maintain standardization across agents. Templates include:
+
+- **System prompts** with role alignment
+- **Tool contexts** and skills
+- **Conversation memory toggles**
+- **Security & authorization hints**
+
+See: [`system-prompt-inheritance.json`](../config/templates/system-prompt-inheritance.json)
+
+---
+
+## Prompt Inheritance Design
+
+Prompt inheritance allows defining roles and toolsets at a high level, then extending or overriding specific fields per agent.
+
+Example (conceptual):
 
 ```json
 {
-  "base": "default-reasoning-agent",
-  "override": {
-    "task_style": "inquisitive",
-    "context_scope": "code_navigation",
-    "verifier_enabled": true
+  "base_prompt": {
+    "model": "gpt-4",
+    "system": "You are an expert SRE focused on uptime and Kubernetes ops."
+  },
+  "child_prompt": {
+    "inherits": "base_prompt",
+    "system": "You also handle advanced observability with Grafana and Loki."
   }
 }
 ```
 
-📚 Additional Reading / GitHub References
+# Use Case Templates
 
-- [System Prompts and Models of AI Tools (GitHub)](https://github.com/x1xhlol/system-prompts-and-models-of-ai-tools)
-- [OpenDevin](https://github.com/sourcegraph/opendevin)
-- [Microsoft AutoGen](https://github.com/microsoft/autogen)
-- [LangGraph](https://github.com/langflow/langflow)
+Each use-case template applies prompt logic to specific workflows. Examples include:
 
-```text
-These patterns are intended to inform and evolve agent architectures across secure, scalable, and intelligent MCP ecosystems.
-```
+- [cloud-agent-template.json](../../config/templates/cloud-agent-template.json) – for orchestrating cloud tasks
+- [game-dev-agent-template.json](../../config/templates/game-dev-agent-template.json) – for local indie game workflows
+- [system-prompt-inheritance.json](../../config/templates/system-prompt-inheritance.json) – role-based inheritance logic
 
-## Config Files
+# References
 
-- [cloud-agent-template.json](../../config/cloud-agent-template.json)  
-- [system-prompt-inheritance.json](../../config/system-prompt-inheritance.json)
-
-## Related Docs
-
-- [README](../../README.md)  
-- [Multi-Agent Orchestration](../multi_agent_orchestration.md)
+- 🧠 [Model Context Protocol Site](https://mcp.so/)
+- 🔧 [MCP Server Templates](https://github.com/modelcontextprotocol/servers)
+- 📘 [Prompt Engineering for Agent Chains](https://github.com/x1xhlol/system-prompts-and-models-of-ai-tools)

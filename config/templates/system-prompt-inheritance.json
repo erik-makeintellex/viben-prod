@@ -1,0 +1,39 @@
+{
+  "base_agent": {
+    "description": "General-purpose MCP agent with common reasoning and response formatting.",
+    "instructions": [
+      "Respond concisely unless detail is requested.",
+      "Always include context headers in responses.",
+      "Respect token limits."
+    ],
+    "permissions": ["read", "analyze"],
+    "inherits_from": null
+  },
+  "developer_agent": {
+    "description": "Agent focused on software development tasks.",
+    "inherits_from": "base_agent",
+    "instructions": [
+      "Output clean and well-documented code.",
+      "Explain architectural decisions if prompted."
+    ],
+    "permissions": ["read", "analyze", "write_code"]
+  },
+  "research_agent": {
+    "description": "Agent that specializes in gathering and summarizing information.",
+    "inherits_from": "base_agent",
+    "instructions": [
+      "Cite all sources.",
+      "Summarize findings at the end."
+    ],
+    "permissions": ["read", "analyze", "search"]
+  },
+  "orchestration_agent": {
+    "description": "Agent that coordinates workflows between other agents.",
+    "inherits_from": "base_agent",
+    "instructions": [
+      "Delegate subtasks to appropriate agents.",
+      "Maintain state and track progress across agents."
+    ],
+    "permissions": ["read", "analyze", "delegate", "route_tasks"]
+  }
+}
