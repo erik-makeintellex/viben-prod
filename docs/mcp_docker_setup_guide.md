@@ -83,18 +83,18 @@ docker-compose down
     Contains core MCP repositories, including runtimes, tools, and documentation.
 
 - MCP Official Website:
-    https://mcp.so/
+    [MCP servers](https://glama.ai/mcp/servers)
     Provides detailed information, official specs, and community resources for MCP.
 
-# Summary
+## Summary
 
 This guide streamlines MCP service deployment using Docker Compose, enabling rapid local setup and serving as a foundation for cloud migration. It prioritizes ease of use, security, and scalability.
 
-# Next Steps
+## Next Steps
 
 After setup, explore the [MCP Service Architecture](mcp_service_architecture.md) to understand how the runtimes, APIs, and storage interact.
 
-# External Resources
+## External Resources
 
 - [MCP GitHub Repository](https://docs.roocode.com/features/mcp/recommended-mcp-servers)
 - [Docker Official Documentation](https://docs.docker.com/)
