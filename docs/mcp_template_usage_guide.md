@@ -1,6 +1,6 @@
 # Using MCP Templates: Step-by-Step Guide
 
-This guide walks you through using the MCP agent configuration templates, integrating them into your environment, and customizing them for real-world deployment.
+This guide walks you through using the MCP agent configuration templates, integrating them into your environment (CLI, AnythingLLM, FooCode), and customizing them for real-world deployment.
 
 ---
 
@@ -15,17 +15,31 @@ cd viben-prod
 
 ## Step 2: Install MCP Agent
 
-Ensure `mcp-agent` is available globally or as part of your containerized environment.
+Make sure `mcp-agent` is installed and available. You can use it in:
+
+* **Command line (CLI)** via direct invocation or scripts
+* **AnythingLLM** via Roo Plugin
+* **FooCode** through linked workflows
+
+### Pip Install (General Local Use)
 
 ```bash
 pip install mcp-agent
 ```
 
-Or install in Dockerfile:
+> This allows you to run MCP agents via Python or terminal commands. Useful for local prototyping and scripting.
+
+### Docker Install (For Containerized Agents)
 
 ```dockerfile
 RUN pip install mcp-agent
 ```
+
+> This installs `mcp-agent` inside Docker containers. Useful when scaling via Docker/Kubernetes.
+
+**Configuration Tip**: You will still need config files mounted or built into the image. Use volume mapping or build context accordingly.
+
+See: [`docker/mcp-compose.yaml`](https://github.com/erik-makeintellex/viben-prod/blob/main/docker/mcp-compose.yaml)
 
 ---
 
@@ -43,30 +57,40 @@ Templates include:
 * `cloud-agent-template.json`
 * `game-dev-agent-group.json`
 
-Each template contains role, model, and behavior definitions. Modify the following as needed:
+### Key Parameters to Configure:
 
-* `default_model`
-* `context_window`
-* `instruction_styles`
-* `linked_workflows`
+```json
+{
+  "default_model": "llama3",
+  "context_window": 8192,
+  "instruction_styles": ["conversational", "structured"],
+  "linked_workflows": ["generate_gdscript", "summarize_level_logic"]
+}
+```
 
-> See comments in each file for explanation of keys.
+> Each template has embedded comments for context. For parameter breakdowns, see:
+> [Agent Prompt Structures](https://github.com/erik-makeintellex/viben-prod/blob/main/docs/agent_prompt_structures.md)
 
 ---
 
 ## Step 4: Start a Local MCP Server (Optional)
 
-Use Docker Compose to bring up your MCP node locally.
+Use Docker Compose to bring up your MCP node locally:
 
 ```bash
 docker-compose -f docker/mcp-compose.yaml up --build
 ```
 
+> This creates a local orchestration engine for agents defined in your config. Dockerfiles are designed to preload templates.
+
+For Kubernetes setup, see:
+[Kubernetes Deployment Overview](https://github.com/erik-makeintellex/viben-prod/blob/main/docs/kubernetes_deployment_guide.md)
+
 ---
 
 ## Step 5: Use Templates to Instantiate Agents
 
-If using `mcp-agent` programmatically:
+### In CLI or Scripts:
 
 ```python
 from mcp_agent import AgentManager
@@ -76,41 +100,43 @@ agent = agents.get("godot_helper")
 response = agent.run("How do I add physics to a GDScript object?")
 ```
 
+### In AnythingLLM:
+
+* Configure via **Roo Plugin Format**
+* Register your agents as REST endpoints
+* Point to MCP via exposed URLs and map actions
+
+See: [Roo Plugin Format](https://docs.anythingllm.xyz/plugins/roo)
+
+### In FooCode:
+
+* Link agent endpoints or embed workflows
+* Extend MCP JSON templates to export FooCode-ready formats
+
 ---
 
-## Step 6: AnythingLLM Integration (Optional)
+## Step 6: Develop and Iterate
 
-If you're connecting to AnythingLLM:
-
-1. Register agents with exposed endpoints.
-2. Use Roo Agent Plugin format.
-3. Define routing rules in `agent-routing.yaml`.
-
----
-
-## Step 7: Develop and Iterate
-
-You can now:
-
-* Extend templates.
-* Add new agents.
-* Create or edit workflows.
-* Use Roo or custom LLM wrappers to manage I/O.
+* Extend configuration templates with new roles, behavior chains, or instructions
+* Add container startup entries for any additional services
+* Share workflows across agents (via linked\_workflows)
 
 ---
 
 ## Reference Links
 
 * [Glama MCP Servers](https://glama.ai/mcp/servers)
-* AnythingLLM Roo Plugin Format
-* [Docker MCP Templates](https://github.com/erik-makeintellex/viben-prod/tree/main/docker)
+* [AnythingLLM Roo Plugin Format](https://docs.anythingllm.xyz/plugins/roo)
+* [Docker MCP Templates](./docker)
+* [Agent Prompt Structures](./docs/agent_prompt_structures.md)
+* [MCP Service Architecture](./docs/mcp_service_architecture.md)
+* [Multi-Agent Orchestration](./docs/multi_agent_orchestration.md)
 
 ---
 
 ## Next Steps
 
-* Use the Kubernetes deployment guide to scale your agent cloud.
-* Expand with more workflows or connect to open game assets via AI agents.
-* Run GDScript tutorials via the Godot agent to auto-generate project scaffolds.
-
----
+* Explore `config/templates/game-dev-agent-group.json` to build AI helpers for Godot and GDScript.
+* Use the Kubernetes guide to launch scalable self-hosted agents.
+* Connect workflows with real assets via `linked_workflows`.
+* Leverage Roo for seamless AnythingLLM integration.

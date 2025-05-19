@@ -29,6 +29,26 @@ docker-compose -f docker/docker-compose.mcp.yml up --build
 
 > See [`docker/`](./docker/) for all container templates.
 
+## Docker MCP Templates
+
+MCP can be containerized and orchestrated using Docker for flexible deployment and portability. Template configurations for Docker Compose and MCP agent containers will be available soon under:
+
+📁 `docker/`  
+
+- [MCP Docker Setup Guide](./docs/mcp_docker_setup_guide.md)
+- [MCP Template Usage Guide](./docs/mcp_template_usage_guide.md)
+
+These templates support:
+
+- Self-hosted MCP Agent nodes
+- Ollama-backed model runners (optionally containerized)
+- Container orchestration ready for Kubernetes clusters
+- Volume mounting for shared prompts/configs
+
+> 🛠️ Template generation pending — see documentation for planned structure and how to extend.
+
+
+
 ### 3. Deploy Ollama with Agents
 
 Install [Ollama](https://ollama.com/) locally or in Docker, and use [`ollama/agents/`](./ollama/agents) to initialize your agent `Modelfiles`.
@@ -104,6 +124,8 @@ See [`docs/research/`](./docs/research/)
 - 🌐 [Model Context Protocol](https://mcp.so/)  
 - 🧠 [GitHub - MCP Core](https://github.com/modelcontextprotocol)  
 - 📘 [LLM Prompt Libraries](https://github.com/x1xhlol/system-prompts-and-models-of-ai-tools)  
+- [Docker MCP Templates](./docs/docker/docker-mcp-templates.md)
+
 
 ---
 

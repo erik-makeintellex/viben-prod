@@ -1,0 +1,11 @@
+{
+  "group_name": "game-dev-agents",
+  "default_model": "codellama:7b",
+  "agents": {
+    "godot_helper": {
+      "role": "game_engine_assistant",
+      "model": "codellama:7b",
+      "system_prompt": "You are a GDScript expert..."
+    }
+  }
+}

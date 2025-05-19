@@ -1,101 +1,109 @@
-# MCP Docker Setup Guide: Cross-Platform Local and Cloud Deployment
+# MCP Docker Setup Guide
 
-## Purpose
-
-This guide provides a straightforward, generic Docker-based setup for hosting MCP services, designed to work seamlessly across local environments and cloud platforms.
+This guide explains how to deploy and run MCP agents using Docker. These templates enable reproducible, isolated agent environments for local development or production deployment.
 
 ---
 
-## Prerequisites
+## 📁 Directory Overview
 
-- Docker installed (Docker Desktop recommended for Windows/Mac).  
-- Basic knowledge of Docker commands and container management.
+The `docker/` directory includes the following key files:
 
----
-
-## Step 1: Clone the MCP Docker Repository
-
-```bash
-git clone https://github.com/modelcontextprotocol/mcp-docker.git
-cd mcp-docker
-
-(This repository contains the official Docker setup for Model Context Protocol MCP services.)
+```
+/docker
+├── mcp-compose.yaml               # Main Docker Compose setup
+├── .env                           # Optional: secrets or config overrides
+├── game-dev-agent-group.json      # Sample config for a group of dev agents
+└── templates/
+    ├── agents-base.yaml           # Generic multi-agent definition
+    ├── ollama-models.yaml         # Optional: Ollama LLM model setup
+    └── volumes/
+        ├── config/
+        │   ├── game-dev-agent-group.json
+        │   ├── godot_gdscript_agent.json
+        │   └── unity_csharp_agent.json
+        └── ollama/
 ```
 
 ---
 
-## Step 2: Review the Docker Compose File
+## 🐳 Launching MCP with Docker Compose
 
-- docker-compose.yml defines MCP service containers, including:
-- Core MCP runtime containers
-- API gateways
-- Supporting services (e.g., Redis for caching, PostgreSQL for state persistence)
-
-## Step 3: Configure Environment Variables
-
-- Copy .env.example to .env and modify variables to suit your environment:
-- MCP_API_TOKEN – Authentication token for secure access
-- REDIS_URL – Redis service connection string
-- POSTGRES_URL – PostgreSQL connection string
-
-## Step 4: Start the MCP Services
+### Step 1: Local Launch Command
 
 ```bash
-docker-compose up -d
+docker compose -f docker/mcp-compose.yaml up --build -d
 ```
 
-## Step 5: Verify Running Services
+* `--build` ensures Docker rebuilds layers if anything has changed.
+* Use `-d` to run it in detached mode.
 
-```bash
-docker-compose ps
+---
+
+## ⚙️ Configuration Files
+
+### 🔹 MCP Agent Group Config
+
+[`game-dev-agent-group.json`](../docker/templates/volumes/config/game-dev-agent-group.json):
+
+```json
+{
+  "group_name": "game-dev-agents",
+  "default_model": "codellama:7b",
+  "agents": {
+    "godot_helper": {
+      "role": "game_engine_assistant",
+      "model": "codellama:7b",
+      "system_prompt": "You are a GDScript expert..."
+    }
+  }
+}
 ```
 
-- Ensure all containers show as "Up".
-- Optionally, check logs for errors:
+### 🔹 Docker Compose File
 
-```bash
-docker-compose logs -f
+[`mcp-compose.yaml`](../docker/mcp-compose.yaml):
+
+```yaml
+services:
+  mcp-node:
+    image: ghcr.io/glamaai/mcp-agent:latest
+    ports:
+      - "8080:8080"
+    volumes:
+      - ./templates/volumes/config:/app/config
+    environment:
+      - MCP_ENV=production
+      - CONFIG_PATH=/app/config/game-dev-agent-group.json
 ```
 
-## Step 6: Access MCP Services
+---
 
-- Use a REST client or cURL to interact with MCP service endpoints.
-- Authenticate using the token configured in .env.
+## 🧠 Optional: Ollama Setup
 
-## Step 7: Scaling and Management
+Use [`ollama-models.yaml`](../docker/templates/ollama-models.yaml) to define local model access for Ollama. This mounts the model directory and exposes port 11434:
 
-- To scale MCP runtime containers:
-
-```bash
-docker-compose up --scale mcp-runtime=3 -d
+```yaml
+  ollama:
+    image: ollama/ollama:latest
+    ports:
+      - "11434:11434"
+    volumes:
+      - ./templates/volumes/ollama:/root/.ollama
+    restart: unless-stopped
 ```
 
-- To stop and remove containers:
+---
 
-```bash
-docker-compose down
-```
+## 🔑 Notes
 
-## Additional Resources
+* You may use `.env` in the `docker/` directory for secrets or tokenized settings.
+* The MCP image is pulled from `ghcr.io/glamaai/mcp-agent:latest`.
+* Agent JSON configurations live under `/docker/templates/volumes/config/`.
 
-- Model Context Protocol GitHub:
-    https://github.com/modelcontextprotocol
-    Contains core MCP repositories, including runtimes, tools, and documentation.
+---
 
-- MCP Official Website:
-    [MCP servers](https://glama.ai/mcp/servers)
-    Provides detailed information, official specs, and community resources for MCP.
+## ✅ Next Steps
 
-## Summary
-
-This guide streamlines MCP service deployment using Docker Compose, enabling rapid local setup and serving as a foundation for cloud migration. It prioritizes ease of use, security, and scalability.
-
-## Next Steps
-
-After setup, explore the [MCP Service Architecture](mcp_service_architecture.md) to understand how the runtimes, APIs, and storage interact.
-
-## External Resources
-
-- [MCP GitHub Repository](https://docs.roocode.com/features/mcp/recommended-mcp-servers)
-- [Docker Official Documentation](https://docs.docker.com/)
-- [MCP Servers](https://glama.ai/mcp/servers)
+* Add more agents to `volumes/config/`
+* Optionally integrate with [Ollama](https://ollama.com/)
+* Reference agent groups in `CONFIG_PATH` for other agent compositions

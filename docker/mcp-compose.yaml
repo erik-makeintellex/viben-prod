@@ -1,0 +1,21 @@
+version: '3.9'
+
+services:
+  mcp-node:
+    image: ghcr.io/glamaai/mcp-agent:latest
+    container_name: mcp-node
+    restart: unless-stopped
+    ports:
+      - "8080:8080"
+    volumes:
+      - ./templates/volumes/config:/app/config
+    environment:
+      - MCP_ENV=production
+      - CONFIG_PATH=/app/config/game-dev-agent-group.json
+    ollama:
+      image: ollama/ollama:latest
+      volumes:
+        - ./templates/volumes/ollama:/root/.ollama
+      ports:
+        - "11434:11434"
+      restart: unless-stopped
