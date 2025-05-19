@@ -6,14 +6,24 @@ Welcome to the documentation folder for the Viben project. This directory contai
 
 ## Core Documentation
 
-- [Multi-Agent Orchestration Strategies](./multi-agent-orchestration-strategies.md)  
+- [Multi-Agent Orchestration Strategies](./multi_agent_orchestration.md)  
   Principles and best practices for orchestrating multiple AI agents with MCP services.
 
-- [MCP Agent Cloud Design](./mcp-agent-cloud-design.md)  
+- [MCP Agent Cloud Design](./mcp_service_architecture.md)  
   Design patterns for scalable, reusable agent clouds using MCP nodes and Docker containers.
 
 - [Agent Prompt Structures](./agent-prompt-structures.md)  
   Templates and strategies for designing effective system and agent prompts for context management.
+
+---
+
+## MCP Docker & Node Usage Guides
+
+- [MCP Docker Setup Guide](./mcp_docker_setup_guide.md)  
+  Step-by-step instructions for deploying MCP services using Docker containers.
+
+- [Strategic MCP Node Usage](./strategic_mcp_node_usage.md)  
+  Best practices and authorization models for managing MCP nodes securely and efficiently.
 
 ---
 
