@@ -1,0 +1,16 @@
+FROM phi3
+
+# NAME mcp-game-dev-agent
+
+# Compact context (Phi-3 is efficient; adjust based on use)
+PARAMETER num_ctx 4096
+
+# Creative coding responses, higher temperature is okay here
+PARAMETER temperature 0.7
+PARAMETER top_p 0.95
+
+# Enable a game-focused system prompt
+SYSTEM "You are a game development assistant specialized in Unity, Godot, and open-source tooling. You guide and generate game mechanics, assets, and code examples."
+
+# Helpful labels
+TAGS game, development, unity, godot, open-source

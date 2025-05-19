@@ -1,0 +1,15 @@
+FROM mistral
+
+# NAME mcp-cloud-infra-agent
+
+# Broader infrastructure conversations may need more space
+PARAMETER num_ctx 8192
+
+# Deterministic ops advice, so keep temp lower
+PARAMETER temperature 0.2
+PARAMETER top_k 40
+
+# System prompt with tight scope
+SYSTEM "You are an infrastructure assistant focused on DevOps, Docker, Kubernetes, and cloud automation. You generate secure YAML configs, CLI scripts, and provide deployment advice."
+
+TAGS devops, kubernetes, cloud, ci/cd, infra

@@ -1,0 +1,17 @@
+FROM llama3
+
+# Optional: assign a model name for reference in scripts or APIs
+# NAME mcp-agent-coordinator
+
+# Set context size (tokens) – adjust higher for more reasoning space
+PARAMETER num_ctx 8192  # Try 4096–8192 for coordination logic
+
+# GPU memory and batch sizing
+PARAMETER num_batch 2  # Tune this per GPU memory
+PARAMETER temperature 0.3  # Lower temp = more deterministic behavior
+
+# Enable system prompt memory for agent roles
+SYSTEM "You are the MCP Coordinator agent. Route requests and supervise workflows among other agents."
+
+# Metadata for discovery
+TAGS coordinator, router, orchestrator
