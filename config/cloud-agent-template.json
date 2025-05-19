@@ -1,0 +1,68 @@
+{
+  "name": "Cloud Agent Template",
+  "description": "A generalized JSON template representing an MCP-enabled agent cloud with modular roles, workflows, and shared MCP microservices for collaborative agent orchestration.",
+  "version": "1.0.0",
+  "roles": {
+    "controller": {
+      "description": "Coordinates cloud-wide tasks, manages agent lifecycle, and delegates MCP service calls.",
+      "permissions": ["deploy_agents", "schedule_tasks", "authorize_access"]
+    },
+    "worker": {
+      "description": "Executes assigned tasks, interacts with MCP services, and reports results.",
+      "permissions": ["execute_tasks", "access_mcp_services"]
+    },
+    "observer": {
+      "description": "Monitors cloud health and logs events without executing tasks.",
+      "permissions": ["view_logs", "monitor_status"]
+    }
+  },
+  "workflow": {
+    "init": {
+      "description": "Bootstraps the agent cloud, authenticates nodes, and establishes MCP service registry.",
+      "steps": [
+        "authenticate_nodes",
+        "register_mcp_services",
+        "initialize_monitoring"
+      ]
+    },
+    "task_dispatch": {
+      "description": "Manages task assignment and execution within the cloud.",
+      "steps": [
+        "receive_task",
+        "match_worker",
+        "dispatch_task",
+        "collect_results"
+      ]
+    },
+    "scaling": {
+      "description": "Handles dynamic scaling of agents based on workload.",
+      "steps": [
+        "monitor_load",
+        "scale_up_agents",
+        "scale_down_agents"
+      ]
+    }
+  },
+  "mcp_services": [
+    {
+      "name": "Natural Language Understanding",
+      "endpoint": "https://mcp.so/nlu",
+      "description": "Processes and interprets natural language inputs for agents."
+    },
+    {
+      "name": "Knowledge Base Access",
+      "endpoint": "https://mcp.so/kb",
+      "description": "Provides structured access to shared knowledge and context."
+    },
+    {
+      "name": "Task Management",
+      "endpoint": "https://mcp.so/taskmgr",
+      "description": "Coordinates task scheduling and status tracking."
+    }
+  ],
+  "security": {
+    "authorization_model": "Role-Based Access Control (RBAC)",
+    "token_authentication": true,
+    "encrypted_communication": true
+  }
+}
