@@ -4,9 +4,9 @@
 Brief on how agents are deployed using Ollama and Modelfiles in MCP.
 
 ## Sample Modelfiles
-- [Coordinator Agent](../ollama/agents/agent-coordinator/Modelfile)
-- [Game Dev Agent](../ollama/agents/game-dev-agent/Modelfile)
-- [Cloud Infra Agent](../ollama/agents/cloud-infra-agent/Modelfile)
+- [Coordinator Agent](../../ollama/agents/agent-coordinator/Modelfile)
+- [Game Dev Agent](../../ollama/agents/game-dev-agent/Modelfile)
+- [Cloud Infra Agent](../../ollama/agents/cloud-infra-agent/Modelfile)
 
 ## Commonly Tuned Parameters
 
